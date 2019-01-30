@@ -1,0 +1,39 @@
+{
+  "name": "Salama",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "matrix-js": "^1.4.0",
+    "moment": "^2.24.0",
+    "native-base": "^2.10.0",
+    "react": "16.6.3",
+    "react-google-recaptcha": "^1.0.5",
+    "react-native": "0.57.8",
+    "react-native-calendar-picker": "^5.22.0",
+    "react-native-confirmation-code-input": "^1.0.4",
+    "react-native-elements": "^1.0.0-beta7",
+    "react-native-flexi-radio-button": "^0.2.2",
+    "react-native-imagepicker": "^2.0.0",
+    "react-native-js-stepper": "^0.2.1",
+    "react-native-justified-text": "^1.0.3",
+    "react-native-material-textfield": "^0.12.0",
+    "react-native-popup-dialog": "^0.17.0",
+    "react-native-textarea": "^1.0.2",
+    "react-native-vector-icons": "^6.2.0",
+    "react-navigation": "^3.0.9",
+    "react-seatmap": "^0.1.2"
+  },
+  "devDependencies": {
+    "babel-jest": "23.6.0",
+    "jest": "23.6.0",
+    "metro-react-native-babel-preset": "0.51.1",
+    "react-test-renderer": "16.6.3"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
