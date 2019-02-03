@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Header, Content, Accordion,View,Text } from "native-base";
+import { Container, Header, Content, Accordion,View,Text, Left,Icon } from "native-base";
 // import { Icon } from 'react-native-elements'
 import { Image,AppRegistry,StyleSheet,TextInput,TouchableOpacity,LayoutAnimation,NativeModules,TouchableHighlight,TouchableNativeFeedback } from 'react-native';
 import Textarea from 'react-native-textarea';
@@ -152,13 +152,21 @@ submit = () => {
 
   render() {
     return (
+      <Container>
+       <Header style={{backgroundColor:'#bc9e6d',color:'black'}} >
+         <Left>
+                <Icon style={styles.drawericon} name="menu" onPress={()=>
+                 this.props.navigation.openDrawer()} />
+            </Left>
+          
+         </Header>
      <View>
       
       
        <View style = {styles.container}>
         
        
-        <Text style={styles.FACP}>
+        {/* <Text style={styles.FACP}>
        FACP COMMUNICATION DEVICE
        
         </Text>
@@ -177,7 +185,7 @@ submit = () => {
         </Text>
         <Text style={styles.content}>
         85 db alarm signal Loud Output
-        </Text>
+        </Text> */}
 <View style={styles.area}>
   <Textarea
     containerStyle={styles.textareaContainer}
@@ -233,6 +241,7 @@ submit = () => {
          //onPress={this.props.navigation.navigate("mainPage")}
        >
        <Button disabled={!this.state.description || !this.state.rating}
+       backgroundColor='#bc9e6d'
         //style = {{color: '#bc9e6d'}}
         //style={styles.but}
         buttonStyle = {{backgroundColor: '#bc9e6d',
@@ -263,7 +272,7 @@ submit = () => {
      
         </View>
       </View>
-     
+      </Container>
     );
   }
 }
@@ -277,7 +286,9 @@ const styles = StyleSheet.create({
 	color:'#996'
 	
 },
-  
+  drawericon:{
+    marginLeft:-100
+ },
   container: {
    
     alignItems: 'center',

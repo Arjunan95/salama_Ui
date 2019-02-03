@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, TextInput,View, Image} from 'react-native';
+import {Platform, StyleSheet, Text, TextInput,View, Button, Image} from 'react-native';
 
-import { Header, Left, Content, CardItem, Card, Body, Icon, Container, Button } from 'native-base';
+import { Header, Left, Content, CardItem, Card, Body, Icon, Container } from 'native-base';
 import { TextField } from 'react-native-material-textfield';
 import { CheckBox } from 'react-native-elements'
 
@@ -57,12 +57,22 @@ login(){
       "Company_Email": this.state.Company_Email,
       "Password": this.state.Password,
     }),
-  }).then((response) => response.json())
+    
+  }).then((response) => response.json()).then((responseJson) => {
+    var res1 = responseJson;
+    // console.warn("Entire login console", res1)
+    if (res1.status  ==401){
+    alert(res1.message)
+    }
+    if(res1.message.status ==401){
+      alert(res1.message.message)
+    }
+    else{
+    this.props.navigation.navigate('Appeal')
+    }
+  })
   
-      .then(() => {
-
-      })
-
+      
 }
 
 
@@ -70,7 +80,7 @@ login(){
         return (
           <Container>
               
-            <Header  style={{backgroundColor:'#bc9e6d',color:'black',}} >
+            <Header  style={{backgroundColor:'white',color:'black',}} >
             <Left>
                 <Icon style={styles.drawericon} name="menu" onPress={()=>
                  this.props.navigation.openDrawer()} />
@@ -104,22 +114,18 @@ login(){
 <CheckBox checked={this.state.checkBoxChecked} onPress={()=>this.onCheckBoxPress()} title="Remember Me" />
  <Text onPress={() => this.props.navigation.navigate('ForgotPassword')} style={{color:'black',marginTop:17}}>Forgot password?</Text></View>
 </Container>
-<Button onPress={()=> this.login()} style={  { backgroundColor: 'red', marginBottom:40,
-                                            width: 248,
-                                            marginLeft: 70,
-                                            height: 40,
-                                            borderRadius: 5,
-                                            fontSize: 20,
-                                        } }>
-            <Text onPress={() => this.props.navigation.navigate('Homepage')} style={  {  borderRadius: 5, 
-                              fontSize: 20, 
-                              marginLeft: 85, 
-                              color:'white'  } }>
-                              SIGN IN
-                              </Text>
-          </Button>
-          <View style={{flexDirection :'row'}}>
-          <Text style={{color:'black',marginBottom:17,marginLeft:17, fontSize:15}}>New User? </Text>
+
+          <View style={styles.bottom}>
+          <Button
+            title="SIGN IN"
+            color="red"
+          style={{height:50}}
+          
+            onPress={()=> this.login()}
+          />
+          </View>
+          <View style={{flexDirection :'row',marginTop:-50}}>
+          <Text style={{color:'black',marginLeft:17, fontSize:15}}>New User? </Text>
           <Text style={{color: 'red',fontSize:15}}
             onPress={() => this.props.navigation.navigate('Hrregister1')}>
             Register Here
@@ -155,6 +161,15 @@ headerWelcome:{
     borderRadius: 899,
   borderTopWidth: 1,
 
+},
+bottom:{
+   
+  marginBottom:70,
+  width: '80%',
+  marginLeft: 40,
+  height: 44.7,
+  borderRadius: 5,
+  fontSize: 20,
 },
 lineStyle:{
   borderBottomWidth: 1,

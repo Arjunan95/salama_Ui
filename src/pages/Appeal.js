@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text,  TextInput,View, Image} from 'react-native';
+import {Platform, StyleSheet, Text,  TextInput,View, Button, Image} from 'react-native';
 // import {DrawerNavigator} from 'react-navigation'
-import { Header, Left, Form, Content,Alert, CardItem,Card, Body, Icon, Container, Button, Picker, Textarea } from 'native-base';
+import { Header, Left, Form, Content,Alert, CardItem,Card, Body, Icon, Container, Picker, Textarea } from 'native-base';
 import { TextField } from 'react-native-material-textfield';
 import { CheckBox } from 'react-native-elements'
 
@@ -51,14 +51,17 @@ appeal(){
           "service": this.state.service,
           "Description": this.state.description,
         }),
-      }).then((response) => response.json())
-      
-          .then(() => {
-           
-            alert(result)
-         
-          })
-          
+      }).then((response) => response.json()).then((responseJson) => {
+    var res1 = responseJson;
+    console.warn("Entire appeal console", res1)
+   if(res1.status ==401){
+    alert(res1.message)
+  }
+  else{
+    alert(res1.message.message)
+    this.props.navigation.navigate('Feedback')
+  }
+    })
           .catch((error) => {
             console.error(error);
            
@@ -80,9 +83,10 @@ appeal(){
           
             </Header>
             <Content padder style={{marginTop: 50, }}>
-            <View >
+            <View style={{ borderWidth:1, borderColor: '#d9d9d9'}}>
               
-            <Picker selectedValue = {this.state.service} onValueChange = {this.updateService}>
+            <Picker selectedValue = {this.state.service} onValueChange = {this.updateService} >
+            <Picker.Item label = "Select service"  />
                <Picker.Item label = "Salama" value = "Salama" />
                <Picker.Item label = "Aman" value = "Aman" />
             
@@ -97,9 +101,16 @@ appeal(){
           </View>
           
             </Content>
-            <Button style={styles.bottom} onPress={()=> this.appeal()}>
-            <Text style={  {  borderRadius: 5, fontSize: 20, color:'white', marginRight:140  } }>Send</Text>
+            <View style={styles.bottom}>
+            <Button title='Send' color= "#bc9e6d" height='120' 
+            style={{width: '60%',
+            marginLeft: 80,
+            height: 50,
+            borderRadius: 5,
+            }} 
+            onPress={() => this.appeal()} >
           </Button>
+        </View>
           </Container>
         );
       }
@@ -137,7 +148,7 @@ lineStyle:{
 },
 bottom:{
     justifyContent:'flex-end',
-    backgroundColor: 'red',
+    backgroundColor: '#bc9e6d',
     marginBottom:60,
     width: '80%',
     marginLeft: 40,

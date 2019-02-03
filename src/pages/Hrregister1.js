@@ -1,409 +1,371 @@
-import React, { Component } from 'react';
-
+// Second screen which we will use to get the data
+import React, { Component } from "react";
+//import react in our code.
 import {
   StyleSheet,
-  Text,
   View,
-  ScrollView,
+  Text,
+  TouchableOpacity,
   TextInput,
-  TouchableHighlight,
+  Button,
   Image,
-  TouchableNativeFeedback,
-  TouchableOpacity
-} from 'react-native';
-import CalendarPicker from 'react-native-calendar-picker';
-import { Header, Left, Form, Content,Alert, CardItem,Card, Body, Icon, Container, Button, Picker, Textarea } from 'native-base';
+  ScrollView
+} from "react-native";
+//import all the components we are going to use.
 
+// import ImagePicker from "react-native-image-picker";
+// import { loadReCaptcha } from "react-recaptcha-google";
+// import { ReCaptcha } from "react-recaptcha-google";
+import { WebView } from "react-native-gesture-handler";
+//import { ScrollView } from 'react-native-gesture-handler';
+// import Step from './Step'
 
-
-export default class Hrregister1 extends Component {
-  constructor(props) {
-    super(props);
+class Hrregister1 extends Component {
+  // static Step = props => <Step {...props} />
+  constructor(props, context) {
+    super(props, context);
     this.state = {
-      selectedStartDate: '',
-      time: '',
-      date:'',
-      buttonColor: 'red',
-
-
+      avatarSource: null,
+      index: 0
     };
-    // this.onDateChange = this.onDateChange.bind(this);
+
+    this.onLoadRecaptcha = this.onLoadRecaptcha.bind(this);
+    this.verifyCallback = this.verifyCallback.bind(this);
   }
 
-
-
-  text(time) {
-  
-    this.setState ({
-        time: time,
-        buttonColor: 'someNewColor'
-
-    });
-    console.warn("time",time);
-   
-  
+  componentDidMount() {
+    if (this.captchaDemo) {
+      console.log("started, just a second...");
+      this.captchaDemo.reset();
+    }
   }
-  
-  
+  onLoadRecaptcha() {
+    if (this.captchaDemo) {
+      this.captchaDemo.reset();
+    }
+  }
+  verifyCallback(recaptchaToken) {
+    // Here you will get the final recaptchaToken!!!
+    console.log(recaptchaToken, "<= your recaptcha token");
+  }
+
+  getWebviewContent(){
+    var originalForm = '<!DOCTYPE html><html><head><script src="https://www.google.com/recaptcha/api.js"></script></head><body><form action="[POST_URL]" method="post"><input type="hidden" value="[TITLE]"><input type="hidden" value="[DESCRIPTION]"><input type="hidden" value="[URL]"><div class="g-recaptcha" data-sitekey="6Lfi340UAAAAABu-sFRpLaz6pqhQDPPhYaNqBfqL"></div></form></body></html>'
+    var tmp =  originalForm
+        .replace("[POST_URL]", "http:////192.168.0.94:8082/v1/video")
+        //.replace("[TITLE]", this.state.form.title)
+        //.replace("[DESCRIPTION]", this.state.form.description)
+        //.replace("[URL]", this.state.form.url); 
+
+    return tmp; 
+}
+
   static navigationOptions = ({ navigation }) => {
     return {
-      title: "Schedule",
-       headerLeft: <Icon name="ios-arrow-back" color="white" />,
-       headerRight: <Icon name="ios-arrow-forward" color="white" />,
-       
+      title: "Register",
+
       headerStyle: {
         backgroundColor: "#ffffff",
         borderTopWidth: 1,
         borderBottomWidth: 1,
         borderBottomColor: "#ffffff",
-        borderTopColor: "#ffffff",
-        
+        borderTopColor: "#ffffff"
       },
       headerTitleStyle: {
         color: "#9b9b9b",
-        textAlign: 'center', flex:1,
-        
+        textAlign: "center",
+        flex: 1
       }
     };
   };
 
+  // =============Register form ajax call start================
   register() {
-    //         const body = new FormData()
-    // body.append('image', this.state.avatarSource)
-    // body.append("CompanyName", this.state.CompanyName,)
-    // body.append("Trade_Licence_No", this.state.Trade_Licence_No,)
+      console.warn("enter in to the register")
+    return fetch("http://192.168.0.94:8085/register", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        Name: this.state.Name,
+        Company: this.state.Company,
+        Nationality: this.state.Nationality,
+        phone_number: this.state.phone_number,
+        Address: this.state.Address,
+        pobox: this.state.pobox,
+        mobile: this.state.mobile,
+        Email: this.state.Email,
+        Password: this.state.Password,
+        ConfirmPassword: this.state.ConfirmPassword
+      })
+    })
+      .then(response => response.json())
 
-
-    return fetch('http://192.168.0.23:8085/register', {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-
-        },
-        body: JSON.stringify({
-            "CompanyName": this.state.CompanyName,
-            " Trade_Licence_No": this.state.Trade_Licence_No,
-            "Company_Email": this.state.Company_Email,
-            "Address1": this.state.Address1,
-            "Address2": this.state.Address2,
-            "Address3": this.state.Address3,
-            "City": this.state.City,
-            "PhoneNumber": this.state.PhoneNumber,
-            "contact_number": this.state.contact_number,
-            "contact_name": this.state.contact_name,
-            "ContactMobile": this.state.ContactMobile,
-            "Company_Category": this.state.Company_Category,
-            "training_percentage": this.state.training_percentage,
-            "employee_count": this.state.employee_count,
-            "Password": this.state.Password
-        }),
-    }).then((response) => response.json())
-
-        .then((responseJson) => {
-            this.imageUpload()
-            return responseJson;
-
-        })
-
-        .catch((error) => {
-            console.error(error);
-
-        });
-
-}
-imageUpload() {
-    //        
-
-
-    return fetch('http://192.168.0.224:8085/register', {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': ' multipart/form-data',
-
-        },
-        body: JSON.stringify({
-        "avatarImage":this.state.avatarSource
-        }),
-    }).then((response) => response.json())
-   
-        .then((responseJson) => {
-
-            return responseJson;
-
-        })
-        .catch((error) => {
-            console.error(error);
-
-        });
-
-}
-
-// ========================register ajax end===================
-
-
-
-render() {
+      .then(responseJson => {
+        return responseJson;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+  // ========================register ajax end===================
+  render() {
     const { navigate } = this.props.navigation;
     return (
+      //View to hold our multiple components
+      <ScrollView>
+        <View style={styles.textinput}>
+          <View style={{ flex: 1, flexDirection: "row", marginBottom: 25 }}>
+            <View style={{ flex: 3, alignItems: "flex-start", margin: 1 }}>
+              <Text
+                style={{ fontSize: 17, fontFamily: "Roboto", color: "black" }}
+              >
+                Welcome to service portal, please enter your information to be
+                able to use the portal and add your property details
+              </Text>
+            </View>
+            <View style={{ flex: 1, alignItems: "flex-end" }}>
+              
+            </View>
+          </View>
 
-        <View style={styles.container}>
-            <ScrollView>
-                {/* <Image source={this.state.avatarSource} style={styles.uploadAvatar} /> */}
-                <Text style={styles.welcome}>Welcome to Salama</Text>
-                {/* <Image source={this.state.avatarSource} style={styles.uploadAvatar} />
-            <Image source={this.state.avatarSource} style={styles.uploadAvatar} /> */}
-                <TouchableOpacity style={styles.imageuploader} onPress={this.imageselect} >
+          <Text style={styles.addr1text}>Name *</Text>
 
-                    {/* <Image source={{ uri: 'https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg' }}
-                    // source={this.state.avatarSource}
-                    style={styles.profileImg} >
-                </Image> */}
-                    <Image source={this.state.avatarSource} style={styles.profileImg} />
+          {/*Input to get the value from the user*/}
+          <TextInput
+            ref="Name"
+            value={this.state.Name}
+            onChangeText={Name => this.setState({ Name })}
+            placeholder={"Enter the ContactMobile"}
+            style={styles.addr1}
+          />
 
-                </TouchableOpacity>
+          <Text style={styles.addr1text}>Company</Text>
+          <TextInput
+            ref="Company_Category"
+            value={this.state.Company}
+            onChangeText={Company => this.setState({ Company })}
+            placeholder={"Enter the Company"}
+            style={styles.InputSelector}
+          />
+          <Text style={styles.addr1text}>Nationality</Text>
+          <TextInput
+            value={this.state.Nationality}
+            onChangeText={Nationality => this.setState({ Nationality })}
+            placeholder={"Enter the Nationality"}
+            style={styles.InputSelector}
+          />
+          <Text style={styles.addr1text}>Phone Number</Text>
+          <TextInput
+            ref="phone_number"
+            value={this.state.phone_number}
+            onChangeText={phone_number => this.setState({ phone_number })}
+            placeholder={"Enter the phone_number"}
+            style={styles.InputSelector}
+          />
+          <Text style={styles.addr1text}>Address</Text>
+          <TextInput
+            value={this.state.Address}
+            onChangeText={Address => this.setState({ Address })}
+            placeholder={"Enter the Address"}
+            style={styles.InputSelector}
+          />
+          <Text style={styles.addr1text}>PO Box</Text>
+          <TextInput
+            value={this.state.pobox}
+            onChangeText={pobox => this.setState({ pobox })}
+            placeholder={"Enter the pobox"}
+            style={styles.InputSelector}
+          />
+          <Text style={styles.addr1text}>Mobile *</Text>
+          <TextInput
+            value={this.state.mobile}
+            onChangeText={mobile => this.setState({ mobile })}
+            placeholder={"Enter the mobile"}
+            style={styles.InputSelector}
+          />
+          <Text style={styles.addr1text}>Email *</Text>
+          <TextInput
+            value={this.state.Email}
+            onChangeText={Email => this.setState({ Email })}
+            placeholder={"Enter the Email"}
+            style={styles.InputSelector}
+          />
 
-                {/*==================================Input field start==================================                 */}
-                <View style={styles.textinput}>
-                    <Text style={styles.Name}>Company Name</Text>
+          <Text style={styles.addr1text}>Password</Text>
+          <TextInput
+            value={this.state.Password}
+            onChangeText={Password => this.setState({ Password })}
+            placeholder={"Enter the Password"}
+            style={styles.InputSelector}
+          />
+          <Text style={styles.addr1text}>Confirm Password</Text>
+          <TextInput
+            value={this.state.ConfirmPassword}
+            onChangeText={ConfirmPassword => this.setState({ ConfirmPassword })}
+            placeholder={"Enter the ConfirmPassword"}
+            style={styles.InputSelector}
+          />
 
-                    {/*Input to get the value from the user*/}
-                    <TextInput
-                        ref="name"
-                        value={this.state.CompanyName}
-                        onChangeText={CompanyName => this.setState({ CompanyName })}
-                        placeholder={'Enter the name'}
-                        style={styles.InputSelector}
-                    />
+          {/* <Button
+                    title="Prev"
+                    color="#bc9e6d"
+                    onPress={() => navigate('Login')}
+                    style={styles.prev}
 
-                    <Text style={styles.Company}>Trade Licence Number</Text>
-                    <TextInput
-                        ref="Trade_Licence_No"
-                        value={this.state.Trade_Licence_No}
-                        onChangeText={Trade_Licence_No => this.setState({ Trade_Licence_No })}
-                        placeholder={'Enter the trade licence no'}
-                        style={styles.InputSelector}
-                    />
-                    <Text style={styles.companyemail}>Company Email</Text>
-                    <TextInput
-                        value={this.state.Company_Email}
-                        onChangeText={Company_Email => this.setState({ Company_Email })}
-                        placeholder={'Enter the company email'}
-                        style={styles.InputSelector}
-                    />
-                    <Text style={styles.addr1text}>Address1</Text>
-                    <TextInput
-                        ref="Address1"
-                        value={this.state.Address1}
-                        onChangeText={Address1 => this.setState({ Address1 })}
-                        placeholder={'Enter the address1'}
-                        style={styles.addr1}
-                    />
-                    <Text style={styles.addr1text}>Address2</Text>
-                    <TextInput
-                        value={this.state.Address2}
-                        onChangeText={Address2 => this.setState({ Address2 })}
-                        placeholder={'Enter the address2'}
-                        style={styles.addr1}
-                    />
+                /> */}
 
+          {/* <ReCaptcha
+              ref={el => {
+                this.captchaDemo = el;
+              }}
+              size="normal"
+              data-theme="dark"
+              render="explicit"
+              sitekey="6Lcl1I0UAAAAAA-AhxGefIHtUIeJCtKsDb5BSQDu"
+              onloadCallback={this.onLoadRecaptcha}
+              verifyCallback={this.verifyCallback}
+            />  */}
+          {/* <WebView 
+    javaScriptEnabled={true} 
+    mixedContentMode={'always'} 
+    style={{height: 200}} 
+    source={{
+        html: this.getWebviewContent(),
+        baseUrl: 'http://127.0.0.1' // <-- SET YOUR DOMAIN HERE
+    }}/>
+            </View>  */}
 
+          {/* <WebView style={{flex:1}}
+       source=
+       {{ html: "<style>p{text-align: justify;font-size:18}</style>"
+       +
+       "<div>"
+       +
+       "Salama is a high-level training center established as a collaboration between Sharjah Prevention and Safety Authority (SPSA) and SANED, to serve various sectors in the Emirate of Sharjah, providing specialized training programs in the prevention and safety of workers within private and public sectors.The centre provides main focus on HSE in addition to other topics to increase HSE awareness leading to reducing injuries and  incidents."
+       +
+       "</div>"}}
+       /> */}
 
-                    <Text style={styles.Name}>Address3</Text>
+          <WebView
+            javaScriptEnabled={true}
+            mixedContentMode={"always"}
+            style={{ height: 500 }}
+            source={{
+              html: this.getWebviewContent(),
+              baseUrl: "http://192.168.0.94:8082" // <-- SET YOUR DOMAIN HERE
+            }}
+          />
 
-                    {/*Input to get the value from the user*/}
-                    <TextInput
-                        ref="name"
-                        value={this.state.Address3}
-                        onChangeText={Address3 => this.setState({ Address3 })}
-                        placeholder={'Enter the address3'}
-                        style={styles.addr1}
-                    />
-
-                    <Text style={styles.Company}>City</Text>
-                    <TextInput
-
-                        value={this.state.City}
-                        onChangeText={City => this.setState({ City })}
-                        placeholder={'Enter the city'}
-                        style={styles.InputSelector}
-                    />
-                    <Text style={styles.companyemail}>PhoneNumber</Text>
-                    <TextInput
-                        value={this.state.PhoneNumber}
-                        onChangeText={PhoneNumber => this.setState({ PhoneNumber })}
-                        placeholder={'Enter the company phonenumber'}
-                        style={styles.InputSelector}
-                    />
-                    <Text style={styles.addr1text}>Contact Number</Text>
-                    <TextInput
-                        ref="Address1"
-                        value={this.state.contact_number}
-                        onChangeText={contact_number => this.setState({ contact_number })}
-                        placeholder={'Enter the address1'}
-                        style={styles.InputSelector}
-                    />
-                    <Text style={styles.addr1text}>Contact Name</Text>
-                    <TextInput
-                        value={this.state.contact_name}
-                        onChangeText={contact_name => this.setState({ contact_name })}
-                        placeholder={'Enter the contact name'}
-                        style={styles.InputSelector}
-                    />
-                    <Text style={styles.Name}>ContactMobile</Text>
-                    <TextInput
-                        ref="ContactMobile"
-                        value={this.state.ContactMobile}
-                        onChangeText={ContactMobile => this.setState({ ContactMobile })}
-                        placeholder={'Enter the ContactMobile'}
-                        style={styles.addr1}
-                    />
-
-                    <Text style={styles.Company}>Company Category</Text>
-                    <TextInput
-                        ref="Company_Category"
-                        value={this.state.Company_Category}
-                        onChangeText={Company_Category => this.setState({ Company_Category })}
-                        placeholder={'Enter the Company Category'}
-                        style={styles.InputSelector}
-                    />
-                    <Text style={styles.companyemail}>Mandatory Training Percentage</Text>
-                    <TextInput
-                        value={this.state.training_percentage}
-                        onChangeText={training_percentage => this.setState({ training_percentage })}
-                        placeholder={'Enter the training percentage'}
-                        style={styles.InputSelector}
-                    />
-                    <Text style={styles.addr1text}>Total Employee Count</Text>
-                    <TextInput
-                        ref="Address1"
-                        value={this.state.employee_count}
-                        onChangeText={employee_count => this.setState({ employee_count })}
-                        placeholder={'Enter the employee count'}
-                        style={styles.InputSelector}
-                    />
-                    <Text style={styles.addr1text}>Password</Text>
-                    <TextInput
-                        value={this.state.Password}
-                        onChangeText={Password => this.setState({ Password })}
-                        placeholder={'Enter the Password'}
-                        style={styles.InputSelector}
-                    />
-                    <Button
-                        title="Submit"
-                        color="#bc9e6d"
-                        onPress={this.register}
-                        style={styles.next}
-
-                    />
-                </View>
-
-                {/* =====================================Input END=======================================                 */}
-            </ScrollView>
-
+          <Button
+            title="Submit"
+            color="#bc9e6d"
+            onPress={() => {
+              this.register();
+              this.props.navigation.navigate("Login");
+            }}
+            style={styles.next}
+          />
         </View>
+      </ScrollView>
     );
+  }
 }
-}
-
 const styles = StyleSheet.create({
-container: {
+  container: {
     flex: 1,
     // justifyContent: 'center',
     // alignItems: 'center',
-    backgroundColor: 'white',
-},
-textinput: {
+    backgroundColor: "#F5FCFF"
+  },
+  textinput: {
     flex: 1,
-    margin: 10,
+    margin: 20
     // justifyContent: 'center',
     // alignItems: 'center',
-    // backgroundColor: '#F5FCFF',
-},
-welcome: {
+    //backgroundColor: '#F5FCFF',
+  },
+  welcome: {
     fontSize: 23,
-
-    margin: 25,
-    color: 'black'
-},
-instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-},
-Name: {
+    textAlign: "center",
+    margin: 10,
+    color: "black"
+  },
+  instructions: {
+    textAlign: "center",
+    color: "#333333",
+    marginBottom: 5
+  },
+  Name: {
     width: 200,
     height: 26,
-    fontFamily: 'Roboto',
-    fontSize: 20,
+    fontFamily: "Roboto",
+    fontSize: 18,
 
-    color: 'black'
-},
-InputSelector: {
-    width: 350,
-    height: 43,
-    borderRadius: 1,
-    borderWidth: 1,
-    borderColor: 'gray'
-    //marginBottom: 20,
-    // backgroundColor: '#ffffff',
-    // borderBottomColor: '#000000',
-    // borderBottomWidth: 1,
-    // borderBottomLeftRadius: 1
-},
-addr1: {
+    color: "black"
+  },
+  InputSelector: {
     width: 300,
-    height: 55,
+    height: 36,
     borderRadius: 4,
     marginBottom: 20,
-    backgroundColor: '#ffffff'
-},
-addr2: {
+    backgroundColor: "#ffffff",
+    borderWidth: 0.5
+  },
+  addr1: {
+    width: 300,
+    height: 36,
+    borderRadius: 4,
+    marginBottom: 20,
+    backgroundColor: "#ffffff",
+    borderWidth: 0.5
+  },
+  addr2: {
     width: 300,
     height: 50,
     borderRadius: 4,
     marginBottom: 20,
-    backgroundColor: '#ffffff'
-},
-Company: {
+    backgroundColor: "#ffffff"
+  },
+  Company: {
     width: 200,
     height: 26,
-    fontFamily: 'Roboto',
-    fontSize: 20,
+    fontFamily: "Roboto",
+    fontSize: 18,
 
-    color: 'black'
-},
-companyemail: {
-    width: 350,
-    height: 26,
-    fontFamily: 'Roboto',
-    fontSize: 20,
-
-    color: 'black'
-},
-addr1text: {
+    color: "black"
+  },
+  companyemail: {
     width: 200,
     height: 26,
-    fontFamily: 'Roboto',
-    fontSize: 20,
+    fontFamily: "Roboto",
+    fontSize: 18,
 
-    color: 'black'
-},
-next: {
-    marginTop: 10
-},
-imageuploader: {
-    borderRadius: 150,
-    marginLeft: 250,
-    width: 100,
-    marginTop: -60
-},
-profileImg: {
-    height: 70,
-    width: 70,
-    borderRadius: 40,
-    backgroundColor: 'black'
-    //backgroundImage: "https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg"
-},
+    color: "black"
+  },
+  addr1text: {
+    width: 200,
+    height: 26,
+    fontFamily: "Roboto",
+    fontSize: 18,
+    color: "black"
+  },
+  next: {
+    marginTop: 10,
+    width: 50,
+    flex: 1
+  },
+  buttonstyle: {
+    width: 150,
+    height: 50,
+    flex: 1,
+    flexDirection: "row"
+  },
+  prev: {
+    width: 50
+  }
 });
+
+export default Hrregister1;

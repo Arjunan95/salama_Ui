@@ -72,7 +72,7 @@ appeal(){
     render() {
         return (
           <Container>
-            <Header style={{backgroundColor:'white',color:'black'}} >
+            <Header style={{backgroundColor:'#bc9e6d',color:'black'}} >
             <Left>
                 <Icon style={styles.drawericon} name="menu" onPress={()=>
                  this.props.navigation.openDrawer()} />

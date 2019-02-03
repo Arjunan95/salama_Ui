@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text,  TextInput,View, Image} from 'react-native';
+import {Platform, StyleSheet, Text,TouchableHighlight,  TextInput,View, Button, Image} from 'react-native';
 // import {DrawerNavigator} from 'react-navigation'
-import { Header, Left, Form, Content,Alert, CardItem,Card, Body, Icon, Container, Button, Picker, Textarea } from 'native-base';
+import { Header, Left, Form, Content,Alert, CardItem,Card, Body, Icon, Container,Picker, Textarea } from 'native-base';
 import { TextField } from 'react-native-material-textfield';
 import { CheckBox } from 'react-native-elements'
 import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button'
@@ -48,25 +48,11 @@ export default class Homepage extends Component {
     }
 
 
-//   static navigationOptions = { 
-//     drawerLabel: '',
-//     drawerIcon: () => (  
-//    <View>         
-//   <Image
-//     source={require('../src/images/download.png')}
-//     style={{width: 60, height: 60, borderRadius: 10 , marginLeft: 230, margin:20}}
-//   />
-//   <View style={styles.lineStyle} />
-
-//   </View>
-// ) 
-// }
-
     render() {
         return (
          
           <Container>
-            <Header style={{backgroundColor:'#bc9e6d',color:'black'}} >
+            <Header style={{backgroundColor:'white',color:'black'}} >
             <Left>
                 <Icon style={styles.drawericon} name="menu" onPress={()=>
                  this.props.navigation.openDrawer()} />
@@ -78,53 +64,42 @@ export default class Homepage extends Component {
 <Text style={{fontSize:30,color:'#bc9e6d',textAlign:'center'}}>Welcome</Text>
 <Text style={{fontSize:15,color:'#bc9e6d',textAlign:'center'}}>Our Services</Text>
 </View>
+<View style={{flex:0.2}}></View>
+<View style={{flexDirection :'row',borderColor:'red',justifyContent:'center' }}>
 
-<View style={{flexDirection :'row', marginTop:20}}>
-<RadioGroup
-style={{flexDirection :'row'}}
-  size={20}
-  thickness={2}
-  color='#9575b2'
-  // highlightColor='#ccc8b9'
-  selectedIndex={1}
-  onSelect = {(index, value) => this.onSelect(index, value)}
-  
->
-  <RadioButton 
-    style={{alignItems:'center',
-  paddingTop:-10
-  }}
-    value='Yo!! I am a cat.' 
-  >
-    <Image
-      source={require('../images/aman-llogo-red-background-copy-3.png')}
-      style={{width: 150, height: 60, borderRadius: 10 , marginTop:40}}
-    />
-    
-  </RadioButton>
-  <RadioButton 
-    // style={{alignItems:'center'}}
-    value='Yo!! I am a cat.' 
-  >
+  <View style={styles.container}>
+        <Card style={{width: "40%",height:110}} onPress={() => this.props.navigation.navigate('Appeal')}>
+          <Image
+            source={require('../images/aman-llogo-red-background-copy-3.png')}
+            style={{width: "100%",marginRight:60 ,height: 60, borderRadius: 10 , marginTop:25}}
+           
+         />
+        </Card>
+     <View><Text style={{color:'white'}}>abc</Text></View>
+<Card style={{width: "40%"}} onPress={() => this.props.navigation.navigate('Appeal')}>
    <Image
      source={require('../images/salama-logo-copy-2.png')}
-     style={{width: 100, height: 110, borderRadius: 10}}
+     style={{width: "50%", height: 110, borderRadius: 10,justifyContent:"center",alignItems:'center',marginLeft:40 }}
+   
    />
-    
-  </RadioButton>
-  </RadioGroup>
-
-
+</Card>
+</View>
 </View>
 <Body>
 
 </Body>
 <Text style={{fontSize:22,color:'#9b9b9b',textAlign:'center', marginBottom:30}} onPress={() => this.props.navigation.navigate('Appeal')}>Want to Appeal?</Text>
-       
-<Button style={styles.bottom} onPress={() => this.props.navigation.navigate('Appeal')} >
-            <Text style={  {  borderRadius: 5, fontSize: 20, color:'white', marginRight:130  } }>Appeal</Text>
-          </Button>
-       
+   <View style={styles.bottom}>
+          <Button
+            title="Appeal"
+            color="#bc9e6d"
+            width='500' 
+            onPress={() => this.props.navigation.navigate('Appeal')}
+          />
+          </View>
+       <View style={{flex:0.2}} />
+
+    
           </Container>
         );
       }
@@ -134,6 +109,7 @@ container:{
     alignItems:'center',
     backgroundColor: "white",
     flex:1,
+    flexDirection:'row',
     justifyContent: 'center'
 },
 welcome:{
@@ -141,6 +117,11 @@ welcome:{
     // textAlign:'center'
     marginTop:10,
   
+},
+imgbutton: {
+  alignItems: 'center',
+  backgroundColor: '#DDDDDD',
+  padding: 10
 },
 drawericon:{
    marginLeft:-100
@@ -154,21 +135,29 @@ headerWelcome:{
   borderTopWidth: 1,
 //   borderColor: 'white',
 },
+addBorder: {
+  width: 200,
+  height: 200,
+  resizeMode: "stretch",
+  // Set border width.
+  borderWidth: 2,
+  // Set border color.
+  borderColor: 'red',
+  },
 lineStyle:{
   borderBottomWidth: 1,
   borderColor:'black',
   margin: 5,
   width: 500,
 },
-bottom:{
-    justifyContent:'flex-end',
-    backgroundColor: 'red',
-    marginBottom:60,
-    width: '80%',
-    marginLeft: 40,
-    height: 44,
-    // borderRadius: 5,
-    fontSize: 20,
-}
 
+bottom:{
+   
+  // marginBottom:30,
+  width: '60%',
+  marginLeft: 80,
+  height: 58.7,
+  borderRadius: 5,
+  fontSize: 20,
+},
 });
