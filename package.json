@@ -17,6 +17,7 @@
     "react-native-confirmation-code-input": "^1.0.4",
     "react-native-elements": "^1.0.0-beta7",
     "react-native-flexi-radio-button": "^0.2.2",
+    "react-native-image-picker": "^0.28.0",
     "react-native-imagepicker": "^2.0.0",
     "react-native-js-stepper": "^0.2.1",
     "react-native-justified-text": "^1.0.3",

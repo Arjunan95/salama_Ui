@@ -17,9 +17,9 @@ import Seat_Allocation from "./src/pages/Seat_Allocation.js";
 import Loadpage from "./src/pages/Loadpage.js";
 import Schedule from "./src/pages/Schedule.js";
 import Salama from "./src/pages/Salama.js";
-import Hrregister1 from "./src/pages/Hrregister1.js";
+import Hr_register from "./src/pages/Hr_register.js";
 import Safety_Engineer from "./src/pages/safety_engineer";
-import Hr_register2 from "./src/pages/Hr_register2.js";
+import Add_employees from "./src/pages/Add_employees.js";
 import Landingpage from "./src/pages/Landingpage.js";
 
 const Drawer = createDrawerNavigator(
@@ -43,11 +43,11 @@ const Drawer = createDrawerNavigator(
       screen: Safety_Engineer
     },
 
-    // Hr_register2:{
-    //   screen:Hr_register2,
-    // },
-    Hrregister1: {
-      screen: Hrregister1
+    Add_employees:{
+      screen:Add_employees,
+    },
+    Hr_register: {
+      screen: Hr_register
     },
 
     Login: {

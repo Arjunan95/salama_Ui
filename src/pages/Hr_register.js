@@ -17,7 +17,7 @@ import { Header } from "react-native-elements";
 import { WebView } from "react-native-gesture-handler";
 import { Container, Left, Icon } from "native-base";
 
-class Hrregister1 extends Component {
+class Hr_register extends Component {
   // static Step = props => <Step {...props} />
   constructor(props, context) {
     super(props, context);
@@ -487,4 +487,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Hrregister1;
+export default Hr_register;
