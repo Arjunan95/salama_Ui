@@ -97,7 +97,7 @@ class Hr_register extends Component {
     this.setState({ otp: otp });
   };
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   static navigationOptions = ({ navigation }) => {
     return {
@@ -120,7 +120,7 @@ class Hr_register extends Component {
 
   // =============Register form ajax call start================
   register() {
-    return fetch("http://192.168.0.51:8085/Hr_Registration", {
+    return fetch("http://192.168.0.224:8085/Hr_Registration", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -162,7 +162,7 @@ class Hr_register extends Component {
       });
   }
   register_otp_verify() {
-    return fetch("http://192.168.0.51:8085/Hr_registration_otp_verify", {
+    return fetch("http://192.168.0.224:8085/Hr_registration_otp_verify", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -207,8 +207,8 @@ class Hr_register extends Component {
             borderBottomColor: "gray"
           }}
           centerComponent={{ text: "Register", fontSize: "20", color: "black" }}
-          //rightComponent={{ text: "Calender",fontSize:'20', color: "black" , onPress: () => this.props.navigation.navigate('Schedule')}}
-          //  outerContainerStyles={{ backgroundColor: "white" }}
+        //rightComponent={{ text: "Calender",fontSize:'20', color: "black" , onPress: () => this.props.navigation.navigate('Schedule')}}
+        //  outerContainerStyles={{ backgroundColor: "white" }}
         />
         <ScrollView>
           <View style={styles.textinput}>

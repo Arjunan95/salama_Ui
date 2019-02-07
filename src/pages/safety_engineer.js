@@ -27,7 +27,12 @@ export default class Employeeselector extends Component {
     this.state = {
       avatarSource: null,
       index: 0,
-      title: "Book service"
+      title: "Book service",
+      responseJson: ''
+
+
+
+
     };
   }
   static navigationOptions = {
@@ -44,9 +49,101 @@ export default class Employeeselector extends Component {
     }
   };
 
-  render() {
-    const { navigate } = this.props.navigation;
 
+  // ============Safety employee ajax call start==============
+  safety_officer() {
+    console.warn("Enter in to the  Safety officer")
+    return fetch("http://192.168.0.224:8085/Safetyofficer_details", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        token: "abc",
+
+      },
+      body: JSON.stringify({
+
+        company_trade_lincense_no: "78954",
+        category: "safety_oficer",
+      })
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        var responseJson = data.message
+        console.warn("safety", responseJson)
+        this.props.navigation.navigate("Safety_officer", {
+          responseJson: responseJson,
+
+        });
+      })
+
+
+
+
+      .catch(function (error) {
+        console.warn(
+          "Error" + error
+        );
+        // ADD THIS THROW error
+        throw error;
+      });
+  }
+  // ============Safety employee ajax call end==============
+
+  // ============other employee ajax call start==============
+  other_employee() {
+    console.warn("Enter in to the other employee")
+    return fetch("http://192.168.0.224:8085/Employee_Profile", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        other_employee: "other_employee"
+      })
+    })
+      .then(response => response.json())
+
+      .then(responseJson => {
+        console.warn("responsejsonvalue", responseJson)
+        // this.props.navigation.navigate("Safety_officer", {
+        //   responseJson: responseJson
+        // }) 
+
+
+        // this.props.navigation.navigate("other_employee", {
+        //   responseJson: responseJson
+        // })
+
+
+
+        // navigate('other_employee', {
+        //   responseJson: responseJson,
+        // })
+      })
+
+      .catch(error => {
+        console.error(error);
+      });
+  }
+  // ============Safety employee ajax call end==============
+
+
+
+
+
+
+
+
+
+
+
+  render() {
+
+    //const { navigate } = this.props.navigation;
     return (
       //View to hold our multiple components
       <View>
@@ -67,7 +164,8 @@ export default class Employeeselector extends Component {
 
         <View style={styles.container}>
           <View style={styles.containersafety}>
-            <TouchableOpacity onPress={() => navigate("Registerform1")}>
+            {/* <TouchableOpacity onPress={() => this.safety_officer()}> */}
+            <TouchableOpacity onPress={() => this.safety_officer()}>
               <ImageBackground style={styles.backgroundBoder}>
                 <Image
                   source={require("../images/worker.png")}
@@ -78,7 +176,7 @@ export default class Employeeselector extends Component {
             </TouchableOpacity>
           </View>
           <View style={styles.containersafety}>
-            <TouchableOpacity onPress={() => navigate("Registerform2")}>
+            <TouchableOpacity onPress={() => this.other_employee()}>
               <ImageBackground style={styles.backgroundBoder1}>
                 <Image
                   source={require("../images/team.png")}

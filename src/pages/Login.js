@@ -63,7 +63,7 @@ export default class Login extends Component {
   }
 
   login() {
-    return fetch("http://192.168.0.51:8085/hr_login", {
+    return fetch("http://192.168.0.224:8085/hr_login", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -77,11 +77,13 @@ export default class Login extends Component {
       .then(response => response.json())
       .then(responseJson => {
         var res1 = responseJson;
-        // console.warn("Entire login console", res1)
+        console.warn("Entire login console", res1)
         if (res1.status == 401) {
           alert(res1.message);
+          R
         }
         if (res1.message.status == 401) {
+          console.warn(res1.message.message)
           alert(res1.message.message);
         } else {
           this.props.navigation.navigate("Salama");

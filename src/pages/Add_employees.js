@@ -79,7 +79,7 @@ class Add_employees extends Component {
     this.setState({ category: category });
   };
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   static navigationOptions = ({ navigation }) => {
     return {
@@ -101,7 +101,8 @@ class Add_employees extends Component {
   };
 
   add_employees() {
-    return fetch("http://192.168.0.53:8085/Employee_Profile", {
+    console.warn("Enter in to the employee")
+    return fetch("http://192.168.0.224:8085/Employee_Profile", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -113,7 +114,7 @@ class Add_employees extends Component {
         position: this.state.position,
         national_Id: this.state.national_Id,
         company_Trade_Licence_No: this.state.company_Trade_Licence_No,
-        category: this.category
+        category: this.state.category
       })
     })
       .then(response => response.json())

@@ -21,9 +21,14 @@ import Hr_register from "./src/pages/Hr_register.js";
 import Safety_Engineer from "./src/pages/safety_engineer";
 import Add_employees from "./src/pages/Add_employees.js";
 import Landingpage from "./src/pages/Landingpage.js";
+import Safety_officer from "./src/pages/Safety_officer.js";
+
+
+
 
 const Drawer = createDrawerNavigator(
   {
+
     Loadpage: {
       screen: Salama
     },
@@ -43,8 +48,8 @@ const Drawer = createDrawerNavigator(
       screen: Safety_Engineer
     },
 
-    Add_employees:{
-      screen:Add_employees,
+    Add_employees: {
+      screen: Add_employees,
     },
     Hr_register: {
       screen: Hr_register
@@ -75,7 +80,13 @@ const Drawer = createDrawerNavigator(
     },
     Appeal: {
       screen: Appeal
-    }
+    },
+    // Safety_officer: {
+    //   screen: Safety_officer
+    // }
+  },
+  {
+    initialRouteName: 'safetyengineerscreen',
   },
   {
     drawerWidth: 150
@@ -89,8 +100,8 @@ const Drawer = createDrawerNavigator(
 );
 
 const MainNavigator = createStackNavigator({
-  Loadpage: {
-    screen: Loadpage
+  safetyengineerscreen: {
+    screen: Safety_Engineer
   },
   Login: {
     screen: Login
@@ -101,9 +112,12 @@ const MainNavigator = createStackNavigator({
 
   Appeal: {
     screen: Appeal
+  },
+  Safety_officer: {
+    screen: Safety_officer
   }
 });
 
-const App = createAppContainer(Drawer);
+const App = createAppContainer(MainNavigator);
 
 export default App;
